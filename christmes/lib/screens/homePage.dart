@@ -1,5 +1,4 @@
 import 'package:christmes/models/chatUsersModel.dart';
-import 'package:christmes/screens/groupPage.dart';
 import 'package:christmes/screens/personalPage.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       child: ChatPage()
     ),
     Center(
-      child: GroupPage()
+      child: PersonalPage()
     ),
     Center(
       child: PersonalPage()
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group_work),
-            label : "Groups",
+            label : "Something",
 
           ),
           BottomNavigationBarItem(

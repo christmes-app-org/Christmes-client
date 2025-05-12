@@ -1,8 +1,6 @@
 import 'package:christmes/screens/loginPage.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../utils/client.dart';
 import 'homePage.dart';
 
 
@@ -124,13 +122,8 @@ class _LoginPageState extends State<RegisterPage> {
               child: TextButton(
                 onPressed: () async {
 
-                  Hive.box('client').put("username", userController.text);
-                  Hive.box('client').put("pwd", passwordController.text);
-                  MatrixClient client = MatrixClient();
-                  await client.getRooms();
-
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                  //Navigator.push(
+                  //    context, MaterialPageRoute(builder: (_) => HomePage()));
                 },
                 child: Text(
                   'Register',

@@ -2,32 +2,46 @@
 
 import 'package:christmes/models/chatMessageModel.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import '../utils/client.dart';
+import 'package:matrix/matrix.dart';
 
 class ChatDetailPage extends StatefulWidget{
-
-String roomID;
-String roomName;
-List<ChatMessage> Listmessages;
-ChatDetailPage( {required this.roomID,required this.Listmessages, required this.roomName});
+  final Room room;
+  const ChatDetailPage({required this.room, Key? key}) : super(key: key);
 
   @override
-  ChatDetailPageState createState() => ChatDetailPageState();
+  _ChatDetailPageState createState() => _ChatDetailPageState();
 }
 
 
-MatrixClient client = MatrixClient();
-
-
-class ChatDetailPageState extends State<ChatDetailPage> {
-  final myController = TextEditingController();
+class _ChatDetailPageState extends State<ChatDetailPage> {
+  late final Future<Timeline> _timelineFuture;
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  int _count = 0;
 
   @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
+  void initState() {
+    _timelineFuture = widget.room.getTimeline(onChange: (i) {
+      print('on change! $i');
+      _listKey.currentState?.setState(() {});
+    }, onInsert: (i) {
+      print('on insert! $i');
+      _listKey.currentState?.insertItem(i);
+      _count++;
+    }, onRemove: (i) {
+      print('On remove $i');
+      _count--;
+      _listKey.currentState?.removeItem(i, (_, __) => const ListTile());
+    }, onUpdate: () {
+      print('On update');
+    });
+    super.initState();
+  }
+
+  final TextEditingController _sendController = TextEditingController();
+
+  void _send() {
+    widget.room.sendTextEvent(_sendController.text.trim());
+    _sendController.clear();
   }
 
 
@@ -36,9 +50,7 @@ class ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<ChatMessage> messages = widget.Listmessages;
 
-    String name = widget.roomName;
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -66,7 +78,7 @@ class ChatDetailPageState extends State<ChatDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(name,style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+                        Text(widget.room.getLocalizedDisplayname(),style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
                         SizedBox(height: 6,),
                         Text("Online",style: TextStyle(color: Colors.grey.shade600, fontSize: 13),),
                       ],
@@ -82,89 +94,108 @@ class ChatDetailPageState extends State<ChatDetailPage> {
 
 
 
-      body: Form(
-    key: _formKey,
-      child: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10,bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index){
-              return Container(
-                padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "receiver"?Alignment.topLeft:Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType  == "receiver"?Colors.grey.shade200:Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(messages[index].messageContent, style: TextStyle(fontSize: 15),),
-                  ),
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10,bottom: 10,top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<Timeline>(
+                future: _timelineFuture,
+                builder: (context, snapshot) {
+                  final timeline = snapshot.data;
+                  if (timeline == null) {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }
+                  _count = timeline.events.length;
+                  return Column(
+                    children: [
+                      Center(
+                        child: TextButton(
+                            onPressed: timeline.requestHistory,
+                            child: const Text('Load more...')),
                       ),
-                      child: Icon(Icons.add, color: Colors.white, size: 20, ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  Expanded(
-                    child: TextField(
-                      controller: myController,
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none
+                      const Divider(height: 1),
+                      Expanded(
+                        child: AnimatedList(
+                          key: _listKey,
+                          reverse: true,
+                          initialItemCount: timeline.events.length,
+                          itemBuilder: (context, i, animation) => timeline
+                              .events[i].relationshipEventId !=
+                              null
+                              ? Container()
+                              : ScaleTransition(
+                            scale: animation,
+                            child: Opacity(
+                              opacity: timeline.events[i].status.isSent
+                                  ? 1
+                                  : 0.5,
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  foregroundImage: timeline.events[i]
+                                      .sender.avatarUrl ==
+                                      null
+                                      ? null
+                                      : NetworkImage(timeline
+                                      .events[i].sender.avatarUrl!
+                                      .getThumbnailUri(
+                                    widget.room.client,
+                                    width: 56,
+                                    height: 56,
+                                  )
+                                      .toString()),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(timeline
+                                          .events[i].sender
+                                          .calcDisplayname()),
+                                    ),
+                                    Text(
+                                      timeline.events[i].originServerTs
+                                          .toIso8601String(),
+                                      style:
+                                      const TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Text(timeline.events[i]
+                                    .getDisplayEvent(timeline)
+                                    .body),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  FloatingActionButton(
-                    onPressed: () async {
-                      print("pressed");
-
-                      MatrixClient client = new MatrixClient();
-                     client.sentmessage(myController.text, widget.roomID, (await Hive.box('client').get("username"))!, (await Hive.box('client').get("pwd"))!);
-                      myController.text = "";
-                      Navigator.pop(context);  // pop current page
-                      Navigator.pushNamed(context, "Setting"); // push it back in
-                    },
-                    child: Icon(Icons.send,color: Colors.white,size: 18,),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                ],
-
+                    ],
+                  );
+                },
               ),
             ),
-          ),
-        ],
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: TextField(
+                        controller: _sendController,
+                        decoration: const InputDecoration(
+                          hintText: 'Send message',
+                        ),
+                      )),
+                  IconButton(
+                    icon: const Icon(Icons.send_outlined),
+                    onPressed: _send,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 }

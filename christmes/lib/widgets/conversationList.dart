@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:christmes/screens/chatDetailPage.dart';
-import 'package:christmes/utils/client.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:hive/hive.dart';
@@ -12,31 +11,28 @@ class ConversationList extends StatefulWidget{
   String messageText;
   String imageUrl;
   String time;
-  String roomID;
   bool isMessageRead;
-  List<ChatMessage> messages;
-  ConversationList({required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead, required this.roomID,required this.messages});
+  Client client;
+  Room room;
+  ConversationList({super.key, required this.name,required this.messageText,required this.imageUrl,required this.time,required this.isMessageRead, required this.client, required this.room});
 
   @override
   _ConversationListState createState() => _ConversationListState();
 }
-ChatDetailPageState cdp = new ChatDetailPageState();
+
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async{
-        MatrixClient client = new MatrixClient();
-        List<ChatMessage> message = await client.getMessages(widget.roomID);
-        //await client.getMessages(widget.roomID);
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-
-          return ChatDetailPage(
-            roomName: widget.name,
-           roomID: widget.roomID,
-            Listmessages:  message,
-          );
-        }));
+        if (widget.room.membership != Membership.join) {
+          await widget.room.join();
+        }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ChatDetailPage(room: widget.room),
+          ),
+        );
       },
       child: Container(
         padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
