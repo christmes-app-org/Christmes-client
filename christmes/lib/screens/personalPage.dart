@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:js_util';
-import '../utils/client.dart';
 import 'package:christmes/misc/colors.dart';
 import 'package:christmes/screens/loginPage.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,6 @@ class PersonalPage extends StatefulWidget {
   @override
   _PersonalPageState createState() => _PersonalPageState();
 }
-
-MatrixClient client = new MatrixClient();
 class _PersonalPageState extends State<PersonalPage> {
 
 

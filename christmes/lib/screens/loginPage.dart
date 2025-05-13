@@ -1,36 +1,77 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:matrix/encryption/encryption.dart';
+import 'package:provider/provider.dart';
 import '../misc/colors.dart';
-import '../utils/client.dart';
+import 'chatPage.dart';
 import 'hamburger_menu.dart';
 import 'homePage.dart';
 import 'loginandregisterPage.dart';
-
-
+import 'package:matrix/matrix.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final passwordController = TextEditingController();
-  final userController = TextEditingController();
+  final TextEditingController _homeserverTextField = TextEditingController(
+    text: 'matrix.org',
+  );
+  final TextEditingController _passwordTextField = TextEditingController();
+  final TextEditingController _usernameTextField = TextEditingController();
+
+  bool _loading = false;
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    passwordController.dispose();
-    userController.dispose();
+    _homeserverTextField.dispose();
+    _passwordTextField.dispose();
+    _usernameTextField.dispose();
     super.dispose();
+  }
+
+  void _login() async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      final client = Provider.of<Client>(context, listen: false);
+      await client
+          .checkHomeserver(Uri.https(_homeserverTextField.text.trim(), ''));
+      await client.login(
+        LoginType.mLoginPassword,
+        password: _passwordTextField.text,
+        identifier: AuthenticationUserIdentifier(user: _usernameTextField.text),
+      );
+
+      print(client.encryptionEnabled);
+      final encryption = Encryption(client: client);
+      encryption.autovalidateMasterOwnKey();
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -40,8 +81,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   width: 200,
                   height: 150,
-
-                  child: const Image(image: AssetImage('../img/christmes_logo.png')),
+                  child: const Image(
+                      image: AssetImage('../img/christmes_logo.png')),
                 ),
               ),
             ),
@@ -49,7 +90,20 @@ class _LoginPageState extends State<LoginPage> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: userController,
+                controller: _homeserverTextField,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Homeserver',
+                    hintText: 'Enter valid homeserver'),
+              ),
+            ),
+            Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+              //padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+                controller: _usernameTextField,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Username',
@@ -61,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: passwordController,
+                controller: _passwordTextField,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -70,63 +124,47 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             TextButton(
-              onPressed: (){
+              onPressed: () {
                 //TODO FORGOT PASSWORD SCREEN GOES HERE
                 showDialog(
                   context: context,
-                  builder: (BuildContext context){
+                  builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text('Forgot Password function'),
                     );
                   },
                 );
               },
-
               child: Text(
                 'Forgot Password',
                 style: TextStyle(color: Colors.blue, fontSize: 15),
               ),
             ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: AppColors.blueColor, borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                onPressed: () async {
-
-                  Hive.box('client').put("username", userController.text);
-                  Hive.box('client').put("pwd", passwordController.text);
-                  MatrixClient client = MatrixClient();
-                  await client.getRooms();
-                  //await client.getMessages("!OvzGnzTrZefYXEFufr:matrix.org");
-
-                  //print(await Future.value(client.getAvatar()));
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HamburgerMenu()));
-                },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
-                ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _loading ? null : _login,
+                child: _loading
+                    ? const LinearProgressIndicator()
+                    : const Text('Login'),
               ),
             ),
             SizedBox(
               height: 130,
             ),
-      Container(
-        height: 20,
-        width: 200,
-        child: InkWell(
-          onTap: () {
-
-            print('Clicked on new User');
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => RegisterPage()));
-          },
-          child: Text('New User? Create Account'),
-        ),
-      ),
+            Container(
+              height: 20,
+              width: 200,
+              child: InkWell(
+                onTap: () {
+                  print('Clicked on new User');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => RegisterPage()));
+                },
+                child: Text('New User? Create Account'),
+              ),
+            ),
           ],
         ),
       ),
