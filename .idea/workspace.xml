@@ -5,30 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4cbd6ef3-d2dc-4851-8b41-660e6918ef8b" name="Changes" comment="Updated title in index.html">
-      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/christmes/web/olm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/christmes/web/olm.wasm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/models/dashboardPost.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/models/userPermissionDashboard.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/DashboardPostForm.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/dashbaordDetailScreen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/dashbaord_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/dashboardCard.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/editDashboardPostDialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/models/chatUsersModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/models/chatUsersModel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/chatDetailPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/chatDetailPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/chatPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/chatPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/groupPage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/lib/misc/colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/misc/colors.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/lib/screens/homePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/homePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/loginPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/loginPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/loginandregisterPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/loginandregisterPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/lib/screens/personalPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/personalPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/utils/JSONRoom.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/utils/client.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/widgets/conversationList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/widgets/conversationList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/lib/widgets/responsive_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/widgets/responsive_button.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/web/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +32,13 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -47,24 +47,24 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Sammx22"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Sammx22&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/christmes-app/Christmes-client.git",
-    "accountId": "57a531a8-3bb6-48cd-8982-34332a881eaf"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/christmes-app/Christmes-client.git&quot;,
+    &quot;accountId&quot;: &quot;57a531a8-3bb6-48cd-8982-34332a881eaf&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2Pb1G5e1zo74806uZUA7NxIM9Gf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -83,14 +83,14 @@
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "update-to-newest-matrix-sdk",
+    "git-widget-placeholder": "frontend",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/samue/StudioProjects/Christmes-client/christmes/web",
+    "last_opened_file_path": "C:/src/flutter/bin/cache/dart-sdk/bin",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "flutter.settings",
+    "settings.editor.selected.configurable": "dart.settings",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>

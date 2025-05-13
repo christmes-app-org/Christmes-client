@@ -1,7 +1,9 @@
 import 'package:christmes/models/chatUsersModel.dart';
+import 'package:christmes/screens/dashboard/dashbaord_screen.dart';
 import 'package:christmes/screens/personalPage.dart';
 import 'package:flutter/material.dart';
 
+import '../misc/colors.dart';
 import 'chatPage.dart';
 import 'package:matrix/matrix.dart';
 import 'package:hive/hive.dart';
@@ -19,6 +21,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   static List<Widget> _pages = <Widget>[
+    Center(
+        child: DashboardScreen()
+    ),
     Center(
       child: ChatPage()
     ),
@@ -44,26 +49,36 @@ class _HomePageState extends State<HomePage> {
       //appBar: AppBar(
       //  title: Text(widget.title),
       //),
+
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.redAccent,
-        unselectedItemColor: Colors.grey.shade600,
+        //TODO: Ecken oben auf 12 abrunden
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.darkGray,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        //TODO: Color aus den Einstellungen übernehmen
+        backgroundColor: AppColors.backgroundLight,
+        //backgroundColor: AppColors.backgroundDark,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: Icon(Icons.list),
+            //title: Text("Dashbaord"),
+            label: "Dashbaord",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_outlined),
             //title: Text("Chats"),
             label: "Chats",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_work),
+            icon: Icon(Icons.group_work_outlined),
             label : "Something",
 
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_box_outlined),
             label : "Profile",
           ),
         ],
