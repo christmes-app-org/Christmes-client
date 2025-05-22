@@ -29,8 +29,8 @@ class _PersonalPageState extends State<PersonalPage> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           //backgroundColor: Colors.white.withOpacity(.94),
-          backgroundColor: AppColors.lightBackground,
-          //backgroundColor: AppColors.darkBackground,
+          backgroundColor: AppColors.backgroundLight,
+          //backgroundColor: AppColors.backgroundDark,
           body: Padding(
             padding: const EdgeInsets.all(10),
 
@@ -67,7 +67,7 @@ class _PersonalPageState extends State<PersonalPage> {
                       iconStyle: IconStyle(
                         iconsColor: Colors.white,
                         withBackground: true,
-                        backgroundColor: Colors.red,
+                        backgroundColor: AppColors.primary,
                       ),
                       title: 'Privacy',
                       subtitle: "Keep Privacy safe",
@@ -78,7 +78,7 @@ class _PersonalPageState extends State<PersonalPage> {
                       iconStyle: IconStyle(
                         iconsColor: Colors.white,
                         withBackground: true,
-                        backgroundColor: Colors.red,
+                        backgroundColor: AppColors.primary,
                       ),
                       title: 'Dark mode',
                       subtitle: "Automatic",
@@ -131,7 +131,7 @@ class _PersonalPageState extends State<PersonalPage> {
                       icons: CupertinoIcons.delete_solid,
                       title: "Delete account",
                       titleStyle: TextStyle(
-                        color: Colors.red,
+                        color: AppColors.accentRed,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

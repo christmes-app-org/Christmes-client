@@ -1,171 +1,157 @@
 import 'package:flutter/material.dart';
-import 'package:matrix/encryption/encryption.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:matrix/matrix.dart';
 import '../misc/colors.dart';
 import 'chatPage.dart';
 import 'hamburger_menu.dart';
 import 'homePage.dart';
 import 'loginandregisterPage.dart';
-import 'package:matrix/matrix.dart';
+import 'package:matrix/encryption/encryption.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _homeserverTextField = TextEditingController(
-    text: 'matrix.org',
-  );
-  final TextEditingController _passwordTextField = TextEditingController();
-  final TextEditingController _usernameTextField = TextEditingController();
-
+  final _homeserverController = TextEditingController(text: 'matrix.org');
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _loading = false;
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _homeserverTextField.dispose();
-    _passwordTextField.dispose();
-    _usernameTextField.dispose();
+    _homeserverController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   void _login() async {
-    setState(() {
-      _loading = true;
-    });
-
+    setState(() => _loading = true);
     try {
       final client = Provider.of<Client>(context, listen: false);
-      await client
-          .checkHomeserver(Uri.https(_homeserverTextField.text.trim(), ''));
+      await client.checkHomeserver(Uri.https(_homeserverController.text.trim(), ''));
       await client.login(
         LoginType.mLoginPassword,
-        password: _passwordTextField.text,
-        identifier: AuthenticationUserIdentifier(user: _usernameTextField.text),
+        password: _passwordController.text,
+        identifier: AuthenticationUserIdentifier(user: _usernameController.text),
       );
 
-      print(client.encryptionEnabled);
       final encryption = Encryption(client: client);
       encryption.autovalidateMasterOwnKey();
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => HomePage()),
-        (route) => false,
+            (route) => false,
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
+        SnackBar(content: Text(e.toString())),
       );
-      setState(() {
-        _loading = false;
-      });
+    } finally {
+      setState(() => _loading = false);
     }
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      filled: true,
+      fillColor: Colors.grey.shade100,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                  width: 200,
-                  height: 150,
-                  child: const Image(
-                      image: AssetImage('../img/christmes_logo.png')),
-                ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                'assets/icons/christmes_Logo_2025.svg',
+                height: 120,
               ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: _homeserverTextField,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Homeserver',
-                    hintText: 'Enter valid homeserver'),
+              const SizedBox(height: 24),
+              TextField(
+                controller: _homeserverController,
+                decoration: _inputDecoration('Homeserver'),
               ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: _usernameTextField,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Username',
-                    hintText: 'Enter valid username'),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _usernameController,
+                decoration: _inputDecoration('Username'),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: _passwordTextField,
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
+                decoration: _inputDecoration('Password'),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Forgot Password function'),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text('Forgot Password function'),
+                      ),
                     );
                   },
-                );
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
+                  child: const Text('Forgot Password?'),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _loading ? null : _login,
-                child: _loading
-                    ? const LinearProgressIndicator()
-                    : const Text('Login'),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 350,
+                child: ElevatedButton(
+                  onPressed: _loading ? null : _login,
+                  style: ElevatedButton.styleFrom(
+                    // TODO: Farbe ggf. anpassen (aktuell Blau)
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white, // <- Textfarbe explizit setzen
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                  child: _loading
+                      ? const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  )
+                      : const Text('Login'),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 130,
-            ),
-            Container(
-              height: 20,
-              width: 200,
-              child: InkWell(
+              const SizedBox(height: 32),
+              InkWell(
                 onTap: () {
-                  print('Clicked on new User');
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => RegisterPage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => RegisterPage()),
+                  );
                 },
-                child: Text('New User? Create Account'),
+                child: Text(
+                  'New User? Create Account',
+                  style: TextStyle(color: Colors.blue.shade600),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
