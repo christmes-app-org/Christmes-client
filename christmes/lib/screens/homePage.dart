@@ -2,6 +2,7 @@ import 'package:christmes/models/chatUsersModel.dart';
 import 'package:christmes/screens/dashboard/dashbaord_screen.dart';
 import 'package:christmes/screens/personalPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../misc/colors.dart';
 import 'chatPage.dart';
@@ -68,7 +69,12 @@ class _HomePageState extends State<HomePage> {
             label: "Dashbaord",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_outlined),
+            icon: SvgPicture.asset(
+              // 'assets/icons/official.svg',
+              'assets/icons/christmes_Icon_2025.svg',
+              height: 16,
+              width: 16,
+            ),
             //title: Text("Chats"),
             label: "Chats",
           ),

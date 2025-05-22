@@ -37,6 +37,7 @@ class Christmes extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Matrix Example Chat',
+      debugShowCheckedModeBanner: false,
       builder: (context, child) => Provider<Client>(
         create: (context) => client,
         child: child,

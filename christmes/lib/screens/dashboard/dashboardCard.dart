@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
 import '../../models/dashboardPost.dart';
 import '../../misc/colors.dart';
 import 'dashbaordDetailScreen.dart';
+
 
 
 class DashboardCard extends StatelessWidget {
@@ -158,10 +161,15 @@ class DashboardCard extends StatelessWidget {
           ),
           // Offical-Stern
           if (post.isOfficial)
-            const Positioned(
+            Positioned(
               top: 5,
-              right: 10,
-              child: Icon(Icons.star, color: AppColors.official, size: 32),
+              right: 15,
+              child: SvgPicture.asset(
+               // 'assets/icons/official.svg',
+                'assets/icons/christmes_offical_2025.svg',
+                height: 32,
+                width: 32,
+              ),
             ),
         ],
       ),

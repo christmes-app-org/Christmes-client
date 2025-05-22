@@ -1,154 +1,122 @@
-import 'package:christmes/screens/loginPage.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'homePage.dart';
-
-
+import 'package:flutter_svg/svg.dart';
+import 'loginPage.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<RegisterPage> {
-  final passwordController = TextEditingController();
-  final userController = TextEditingController();
+class _RegisterPageState extends State<RegisterPage> {
+  final emailController = TextEditingController();
   final usernameController = TextEditingController();
-  final passwordrepeatController = TextEditingController();
-  final homeserverController = TextEditingController();
-  static const bluecolor = const Color(0xff2e6ca4);
+  final passwordController = TextEditingController();
+  final passwordRepeatController = TextEditingController();
+  final homeserverController = TextEditingController(text: 'matrix.org');
+
+
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
+    emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
-    userController.dispose();
+    passwordRepeatController.dispose();
+    homeserverController.dispose();
     super.dispose();
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      filled: true,
+      fillColor: Colors.grey.shade100,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                  width: 200,
-                  height: 150,
-
-                  child: const Image(image: AssetImage('../img/christmes_logo.png')),
-                  // Icon(Icons.login,color: Colors.grey.shade600, size: 100,)
-                ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const SizedBox(height: 60),
+              SvgPicture.asset(
+                'assets/icons/christmes_Logo_2025.svg',
+                height: 120,
               ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: userController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid email id to register'),
+
+              const SizedBox(height: 24),
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: _inputDecoration('Email'),
               ),
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: TextField(
+              const SizedBox(height: 16),
+              TextField(
                 controller: usernameController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Username',
-                    hintText: 'Enter a Username to register'),
+                decoration: _inputDecoration('Username'),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+              const SizedBox(height: 16),
+              TextField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
+                decoration: _inputDecoration('Password'),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: passwordrepeatController,
+              const SizedBox(height: 16),
+              TextField(
+                controller: passwordRepeatController,
                 obscureText: true,
-
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Repeat Password',
-                    hintText: 'Repeat your password'),
+                decoration: _inputDecoration('Repeat Password'),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
+              const SizedBox(height: 16),
+              TextField(
                 controller: homeserverController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Homeserver',
-                    hintText: 'Enter the homeserver of your organisation'),
+                decoration: _inputDecoration('Homeserver'),
               ),
-            ),
-            Container(
-                child: SizedBox(
-                  height: 15,
-                  child: Text(""),
-                )
-            ),
-
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: bluecolor, borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                onPressed: () async {
-
-                  //Navigator.push(
-                  //    context, MaterialPageRoute(builder: (_) => HomePage()));
-                },
-                child: Text(
-                  'Register',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO: Registrierung implementieren
+                  },
+                  style: ElevatedButton.styleFrom(
+                    // TODO: Farbe ggf. anpassen (aktuell Blau)
+                    backgroundColor: const Color(0xff2e6ca4),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                  child: const Text('Register'),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 130,
-            ),
-            Container(
-              height: 20,
-              width: 250,
-              child: InkWell(
+              const SizedBox(height: 32),
+              InkWell(
                 onTap: () {
-                  print('Login Page');
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => LoginPage()));
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginPage()),
+                  );
                 },
-                child: Text('Your have a Account? Login here!'),
+                child: const Text(
+                  'Already have an account? Login here!',
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
-            ),
-
-
-          ],
+              const SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );
