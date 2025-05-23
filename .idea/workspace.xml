@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cbd6ef3-d2dc-4851-8b41-660e6918ef8b" name="Changes" comment="Updated title in index.html">
-      <change afterPath="$PROJECT_DIR$/christmes/assets/icons/christmes_Icon_2025.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/christmes/assets/icons/christmes_Logo_2025.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/christmes/assets/icons/christmes_offical_2025.svg" afterDir="false" />
+    <list default="true" id="4cbd6ef3-d2dc-4851-8b41-660e6918ef8b" name="Changes" comment="Change Logo in Login und Registerpage; added Icon and offical icon">
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/dashboard/dashboardCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/dashboard/dashboardCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/chatDetailPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/chatDetailPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/chatPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/chatPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/lib/screens/homePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/homePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/loginPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/loginPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/lib/screens/loginandregisterPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/screens/loginandregisterPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/lib/widgets/conversationList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/lib/widgets/conversationList.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/christmes/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/christmes/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/christmes/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,12 +46,12 @@
     &quot;assignee&quot;: &quot;Sammx22&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/christmes-app/Christmes-client.git&quot;,
-    &quot;accountId&quot;: &quot;57a531a8-3bb6-48cd-8982-34332a881eaf&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/christmes-app-org/Christmes-client.git",
+    "accountId": "e754499b-fdf2-4fed-b9fb-260803e5e721"
   }
-}</component>
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -66,30 +63,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.Run.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "frontend",
-    "io.flutter.reload.alreadyRun": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Daten/Coding/GitHub/Christmes-client/christmes/assets/icons",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "dart.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.Run.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend__communication&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Daten/Coding/GitHub/Christmes-client/christmes/assets/icons&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Daten\Coding\GitHub\Christmes-client\christmes\assets\icons" />
@@ -135,6 +132,11 @@
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="f782317d-a8bb-417d-a576-1eef22b5450a" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -161,6 +163,28 @@
                     <value>
                       <list>
                         <option value="origin/UI" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="f782317d-a8bb-417d-a576-1eef22b5450a">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="frontend_communication" />
                       </list>
                     </value>
                   </entry>

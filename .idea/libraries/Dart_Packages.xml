@@ -205,6 +205,13 @@
             </list>
           </value>
         </entry>
+        <entry key="intl">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="js">
           <value>
             <list>
@@ -613,6 +620,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.4.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.5.4/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.8/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9/lib" />

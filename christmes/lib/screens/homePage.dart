@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group_work_outlined),
-            label : "Something",
+            label : "Spaces",
 
           ),
           BottomNavigationBarItem(

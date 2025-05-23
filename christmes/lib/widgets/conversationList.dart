@@ -20,6 +20,24 @@ class ConversationList extends StatefulWidget{
   _ConversationListState createState() => _ConversationListState();
 }
 
+String? mxcToHttp(String? mxcUrl) {
+  if (mxcUrl == null || !mxcUrl.startsWith("mxc://")) return null;
+
+  final cleaned = mxcUrl.replaceFirst("mxc://", "");
+  final parts = cleaned.split("/");
+
+  if (parts.length != 2) return null;
+
+  final server = parts[0];
+  final mediaId = parts[1];
+
+  return "https://$server/_matrix/media/v3/thumbnail/$server/$mediaId"
+      "?width=100&height=100&method=scale";
+}
+
+
+
+
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
@@ -42,10 +60,18 @@ class _ConversationListState extends State<ConversationList> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    //setAvatarPicture
-                    backgroundImage: NetworkImage(widget.imageUrl),
+                    backgroundImage: (widget.imageUrl.isNotEmpty)
+                        ? NetworkImage(mxcToHttp(widget.imageUrl) ?? '')
+                        : null,
+                    child: (widget.imageUrl.isEmpty)
+                        ? Text(
+                      widget.name.isNotEmpty ? widget.name[0].toUpperCase() : '?',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                        : null,
                     maxRadius: 30,
                   ),
+
                   SizedBox(width: 16,),
                   Expanded(
                     child: Container(

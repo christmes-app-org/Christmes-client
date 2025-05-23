@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 
+import '../misc/colors.dart';
 import 'loginPage.dart';
 
 class ChatPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class ChatPageState extends State<ChatPage> {
     await client.logout();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const LoginPage()),
-      (route) => false,
+          (route) => false,
     );
   }
 
@@ -37,105 +38,116 @@ class ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final client = Provider.of<Client>(context, listen: false);
+    final theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: AppColors.backgroundLight,
+
       appBar: AppBar(
-        title: const Text('Chats'),
+        elevation: 0,
+        backgroundColor: AppColors.backgroundLight,
+        title: Text(
+          'Chats',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // TODO: Logout an der stelle ausbauen, macht keinen Sinn geht auch in den Settings
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout, color: Colors.grey),
             onPressed: _logout,
+            tooltip: 'Logout',
           ),
         ],
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Conversations",
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Conversations",
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-                      height: 30,
-                      decoration: BoxDecoration(
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink.shade100,
+                      foregroundColor: Colors.pink.shade700,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.pink[50],
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.add,
-                            color: Colors.pink,
-                            size: 20,
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            "Add New",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      elevation: 0,
+                      minimumSize: const Size(10, 30),
+                    ),
+                    icon: const Icon(Icons.add, size: 18),
+                    label: const Text("Add New"),
+                  ),
+                ],
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: TextField(
+
+              const SizedBox(height: 20),
+
+              // Search bar
+              TextField(
                 decoration: InputDecoration(
                   hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade600,
-                    size: 20,
-                  ),
+                  prefixIcon: const Icon(Icons.search),
                   filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.grey.shade100)),
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
-            ),
-            StreamBuilder(
-              stream: client.onSync.stream,
-              builder: (context, _) => ListView.builder(
-                itemCount: client.rooms.length,
-                shrinkWrap: true,
-                padding: EdgeInsets.only(top: 16),
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, i) {
-                  return ConversationList(
-                    name: client.rooms[i].getLocalizedDisplayname(),
-                    messageText:
-                        client.rooms[i].lastEvent?.body ?? 'No messages',
-                    imageUrl: client.rooms[i].avatar.toString(),
-                    time: client.rooms[i].lastEvent!.originServerTs.toString(),
-                    isMessageRead:
-                        client.rooms[i].notificationCount > 0 ? true : false,
-                    client: client,
-                    room: client.rooms[i],
+
+              const SizedBox(height: 20),
+
+              // Chat List
+              StreamBuilder(
+                stream: client.onSync.stream,
+                builder: (context, _) {
+                  return ListView.builder(
+                    itemCount: client.rooms.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, i) {
+                      final room = client.rooms[i];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ConversationList(
+                          name: room.getLocalizedDisplayname(),
+                          messageText:
+                          room.lastEvent?.body ?? 'No messages yet',
+                          imageUrl: room.avatar.toString(),
+                          time: room.lastEvent?.originServerTs
+                              .toLocal()
+                              .toString()
+                              .split('.')[0] ??
+                              '',
+                          isMessageRead: room.notificationCount > 0,
+                          client: client,
+                          room: room,
+                        ),
+                      );
+                    },
                   );
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
