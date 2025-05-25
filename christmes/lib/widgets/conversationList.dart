@@ -31,8 +31,9 @@ String? mxcToHttp(String? mxcUrl) {
   final server = parts[0];
   final mediaId = parts[1];
 
-  return "https://$server/_matrix/media/v3/thumbnail/$server/$mediaId"
-      "?width=100&height=100&method=scale";
+//  return "https://$server/_matrix/media/v3/thumbnail/$server/$mediaId"
+  return "https://matrix-client.matrix.org/_matrix/media/v3/thumbnail/$server/$mediaId"
+      "?width=64&height=64&method=crop&allow_redirect=true";
 }
 
 

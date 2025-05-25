@@ -1,4 +1,5 @@
 import 'package:christmes/models/chatUsersModel.dart';
+import 'package:christmes/screens/Spaces/spacesPage.dart';
 import 'package:christmes/screens/dashboard/dashbaord_screen.dart';
 import 'package:christmes/screens/personalPage.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       child: ChatPage()
     ),
     Center(
-      child: PersonalPage()
+      child: SpacesPage()
     ),
     Center(
       child: PersonalPage()
@@ -79,10 +80,16 @@ class _HomePageState extends State<HomePage> {
             label: "Chats",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_work_outlined),
-            label : "Spaces",
-
+          icon: SvgPicture.asset(
+          'assets/icons/christmes_Space_2025.svg',
+          height: 16,
+          width: 16,
           ),
+          //title: Text("Chats"),
+          label: "Spaces",
+          ),
+
+
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box_outlined),
             label : "Profile",

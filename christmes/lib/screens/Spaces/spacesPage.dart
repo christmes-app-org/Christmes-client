@@ -4,33 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
 
-import '../misc/colors.dart';
-import 'loginPage.dart';
+import '../../misc/colors.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+
+class SpacesPage extends StatefulWidget {
+  const SpacesPage({Key? key}) : super(key: key);
 
   @override
-  ChatPageState createState() => ChatPageState();
+  SpacesPageState createState() => SpacesPageState();
 }
 
-class ChatPageState extends State<ChatPage> {
-  void _logout() async {
-    final client = Provider.of<Client>(context, listen: false);
-    await client.logout();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const LoginPage()),
-          (route) => false,
-    );
-  }
-
-  void _join(Room room) async {
-    if (room.membership != Membership.join) {
-      await room.join();
+class SpacesPageState extends State<SpacesPage> {
+  void _openSpace(Room space) async {
+    if (space.membership != Membership.join) {
+      await space.join();
     }
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ChatDetailPage(room: room),
+        builder: (_) => ChatDetailPage(room: space),
       ),
     );
   }
@@ -40,31 +31,19 @@ class ChatPageState extends State<ChatPage> {
     final client = Provider.of<Client>(context, listen: false);
     final theme = Theme.of(context);
 
+    final spaces = client.rooms.where((room) => room.isSpace).toList();
+
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.backgroundLight,
         title: Text(
-          'Chats',
+          'Spaces',
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
-        // TODO: Logout an der stelle ausbauen, macht keinen Sinn geht auch in den Settings
-        /*
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout, color: Colors.grey),
-            onPressed: _logout,
-            tooltip: 'Logout',
-          ),
-        ],
-
-         */
-
-
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -73,19 +52,19 @@ class ChatPageState extends State<ChatPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Deine Chats",
+                    "Your Spaces",
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   ElevatedButton.icon(
-                    // TODO: Funktion zum Erstellen eines neuen Spaces und anpassen an UI
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO: Funktion zum Erstellen eines neuen Spaces und anpassen an UI
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pink.shade100,
                       foregroundColor: Colors.pink.shade700,
@@ -97,7 +76,7 @@ class ChatPageState extends State<ChatPage> {
                       minimumSize: const Size(10, 30),
                     ),
                     icon: const Icon(Icons.add, size: 18),
-                    label: const Text("Add New"),
+                    label: const Text("New Space"),
                   ),
                 ],
               ),
@@ -107,7 +86,7 @@ class ChatPageState extends State<ChatPage> {
               // Search bar
               TextField(
                 decoration: InputDecoration(
-                  hintText: "Search...",
+                  hintText: "Search Spaces...",
                   prefixIcon: const Icon(Icons.search),
                   filled: true,
                   fillColor: Colors.white,
@@ -121,33 +100,31 @@ class ChatPageState extends State<ChatPage> {
 
               const SizedBox(height: 20),
 
-              // Chat List
+              // Space List
               StreamBuilder(
                 stream: client.onSync.stream,
                 builder: (context, _) {
-                  final chatRooms = client.rooms.where((room) => room.isDirectChat).toList();
-
                   return ListView.builder(
-                    itemCount: chatRooms.length,
+                    itemCount: spaces.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, i) {
-                      final room = chatRooms[i];
+                      final space = spaces[i];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: ConversationList(
-                          name: room.getLocalizedDisplayname(),
+                          name: space.getLocalizedDisplayname(),
                           messageText:
-                          room.lastEvent?.body ?? 'No messages yet',
-                          imageUrl: room.avatar.toString(),
-                          time: room.lastEvent?.originServerTs
+                          space.lastEvent?.body ?? 'No recent activity',
+                          imageUrl: space.avatar.toString(),
+                          time: space.lastEvent?.originServerTs
                               .toLocal()
                               .toString()
                               .split('.')[0] ??
                               '',
-                          isMessageRead: room.notificationCount > 0,
+                          isMessageRead: space.notificationCount > 0,
                           client: client,
-                          room: room,
+                          room: space,
                         ),
                       );
                     },
