@@ -104,27 +104,71 @@ class SpacesPageState extends State<SpacesPage> {
               StreamBuilder(
                 stream: client.onSync.stream,
                 builder: (context, _) {
-                  return ListView.builder(
+                  return GridView.builder(
                     itemCount: spaces.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Zwei Kacheln pro Zeile
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1.2, // Seitenverhältnis (anpassbar)
+                    ),
                     itemBuilder: (context, i) {
                       final space = spaces[i];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ConversationList(
-                          name: space.getLocalizedDisplayname(),
-                          messageText:
-                          space.lastEvent?.body ?? 'No recent activity',
-                          imageUrl: space.avatar.toString(),
-                          time: space.lastEvent?.originServerTs
-                              .toLocal()
-                              .toString()
-                              .split('.')[0] ??
-                              '',
-                          isMessageRead: space.notificationCount > 0,
-                          client: client,
-                          room: space,
+                      return GestureDetector(
+                        onTap: () => _openSpace(space),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(space.avatar.toString()),
+                                radius: 24,
+                                backgroundColor: Colors.grey.shade200,
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                space.getLocalizedDisplayname(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                space.lastEvent?.body ?? "No recent activity",
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  color: Colors.black54,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const Spacer(),
+                              Text(
+                                space.lastEvent?.originServerTs
+                                    .toLocal()
+                                    .toString()
+                                    .split('.')[0] ??
+                                    '',
+                                style: const TextStyle(fontSize: 11, color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
